@@ -29,9 +29,6 @@ class GzipProperties
  */
 function file_put_contents($filePath, $content)
 {
-    // save assetic file
-    @\file_put_contents($filePath, $content);
-
     // check gzipping
     if (GzipProperties::$use) {
 
@@ -39,15 +36,6 @@ function file_put_contents($filePath, $content)
         if (!function_exists("gzencode")) {
             throw new \RuntimeException('Unable to find Zlib library');
         }
-
-        $filePath .= '.gz';
-        GzipProperties::$output->writeln(
-            sprintf(
-                '<comment>%s</comment> <info>[gzipped file+]</info> %s',
-                date('H:i:s'),
-                $filePath
-            )
-        );
 
         if (false === @\file_put_contents($filePath, gzencode($content, GzipProperties::$level))) {
             throw new \RuntimeException('Unable to write file ' . $filePath);
