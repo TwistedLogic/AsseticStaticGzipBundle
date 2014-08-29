@@ -40,6 +40,8 @@ function file_put_contents($filePath, $content)
         if (false === @\file_put_contents($filePath, gzencode($content, GzipProperties::$level))) {
             throw new \RuntimeException('Unable to write file ' . $filePath);
         }
+    } else {
+        @\file_put_contents($filePath, $content);
     }
 }
 
